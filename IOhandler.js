@@ -83,9 +83,8 @@ const grayScale = (pathIn, pathOut) => {
             this.data[i + 2] = grey; // make pixels grey by applying formula each RGB value
             i += 3;
           }
-          this.pack().pipe(fs.createWriteStream(destPath)); // writes data to greyscaled folder
+          this.pack().pipe(fs.createWriteStream(destPath)).on('close', () => resolve('The image has been greyscaled')); // writes data to greyscaled folder
         });
-      resolve('The image has been greyscaled');
     }
   });
 };

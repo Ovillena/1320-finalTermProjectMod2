@@ -17,14 +17,21 @@ const server = http.createServer((req, res) => {
         res.end('<h1>error 500</h1>');
       }
       res.writeHead(200, { 'content-type': 'text/html' });
-      res.write(fs.readFileSync('./successPage/success.html'));
-      res.end(JSON.stringify({ fields, files }, null, 2));
+      fs.readFile('./successPage/success.html', (err, data) => {
+        if(err){
+          res.end('error');
+        }else {
+          res.end(data);
+        }
+      });
+      // res.end(JSON.stringify({ fields, files }, null, 2));
       readDir(path.join(__dirname, 'uploads'))
         .then((pathArray) => {
           pathArray.forEach((element) => {
             grayScale(element, path.join(__dirname, 'grayscale')); // grayscale each image in unzipped folder
           });
-        })
+        }) 
+        //use .then to put images into something*****************************************************************************
         .catch((error) => console.log(error)); // catches errors
     });
     return;
@@ -33,15 +40,24 @@ const server = http.createServer((req, res) => {
     res.writeHead(200, { 'context-type': 'text/css' });
     res.write(fs.readFileSync('./css/index.css'));
   } 
+  else if (req.url === '/photos'){
+    readDir(path.join(__dirname, 'uploads'))
+      .then(() => {
+        res.writeHead(200, { 'context-type': 'image/png'})
+        
+      })
+      .catch(error => console.log(error));
+  }
+
   else if(req.url === '/'){
     // show a file upload form
     res.writeHead(200, { 'content-type': 'text/html' });
     res.write(fs.readFileSync('./index.html'));
   }
   res.end();
-
+  
 });
 
 server.listen(8000, () => {
-  console.log('Server listening on http://localhost:8080/ ...');
+  console.log('Server listening on http://localhost:8000/ ...');
 });

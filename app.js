@@ -42,19 +42,17 @@ const server = http.createServer((req, res) => {
   } if (req.url === '/css/index.css') {
     res.writeHead(200, { 'context-type': 'text/css' });
     res.write(fs.readFileSync('./css/index.css'));
-  } else if (req.url === '/grayscale/upload_b3d96eecccf9663c3a3f2317bbbb3149.png') {
-    res.writeHead(200, { 'content-type': 'image/png' });
-    const pngImage = fs.readFileSync(path.join(__dirname, 'uploads', 'upload_b3d96eecccf9663c3a3f2317bbbb3149.png'));
-    pngImage.pipe(res);
+  } else if (req.url === '/grayscale/upload') { // Problem Code -------------TRYING TO GET IMAGE TO SHOW AT LEAST-------------------- 
+    // res.writeHead(200, { 'content-type': 'image/png' });
+    // const pngImage = fs.readFileSync(path.join(__dirname, 'uploads', 'upload_b3d96eecccf9663c3a3f2317bbbb3149.png'));
+    // pngImage.pipe(res);
     // readDir(path.join(__dirname, 'uploads'))
     //   .then((elements) => {
     //     let pngImage = fs.createReadStream(elements[0]);
     //     pngImage.on('error', () => console.log('error').on('finish', (data) => res.write(data)));
     //   })
     //   .catch(error => console.log(error));
-  }
-
-  else if (req.url === '/') {
+  } else if (req.url === '/') {
     // show a file upload form
     res.writeHead(200, { 'content-type': 'text/html' });
     res.write(fs.readFileSync('./index.html'));
